@@ -14,42 +14,42 @@
 
 data Font = Consolas | LucidaConsole | SourceCodePro deriving (Eq, Show)
 
-data Figure
+data Shape
   = Circle Int Int Int
   | Rectangle Int Int Int Int
   | Triangle Int Int Int Int Int Int
   | Label Int Int Font String
   deriving (Eq, Show)
 
-getRectangles :: [Figure] -> [Figure]
+getRectangles :: [Shape] -> [Shape]
 getRectangles [] = []
-getRectangles ((Rectangle x1 y1 x2 y2) : fs) = Rectangle x1 y1 x2 y2 : getRectangles fs
+getRectangles ((Shape x1 y1 x2 y2) : fs) = Shape x1 y1 x2 y2 : getRectangles fs
 getRectangles ((Circle {}) : fs) = getRectangles fs
 getRectangles ((Triangle {}) : fs) = getRectangles fs
 getRectangles ((Label {}) : fs) = getRectangles fs
 
-getCircles :: [Figure] -> [Figure]
+getCircles :: [Shape] -> [Shape]
 getCircles [] = []
 getCircles ((Circle x y r) : fs) = Circle x y r : getCircles fs
 getCircles ((Rectangle {}) : fs) = getCircles fs
 getCircles ((Triangle {}) : fs) = getCircles fs
 getCircles ((Label {}) : fs) = getCircles fs
 
-getTriangles :: [Figure] -> [Figure]
+getTriangles :: [Shape] -> [Shape]
 getTriangles [] = []
 getTriangles ((Triangle x1 y1 x2 y2 x3 y3) : fs) = Triangle x1 y1 x2 y2 x3 y3 : getTriangles fs
 getTriangles ((Rectangle {}) : fs) = getTriangles fs
 getTriangles ((Circle {}) : fs) = getTriangles fs
 getTriangles ((Label {}) : fs) = getTriangles fs
 
-getLabels :: [Figure] -> [Figure]
+getLabels :: [Shape] -> [Shape]
 getLabels [] = []
 getLabels ((Label x y f s) : fs) = Label x y f s : getLabels fs
 getLabels ((Rectangle {}) : fs) = getLabels fs
 getLabels ((Triangle {}) : fs) = getLabels fs
 getLabels ((Circle {}) : fs) = getLabels fs
 
-getFigures :: String -> [Figure] -> [Figure]
+getFigures :: String -> [Shape] -> [Shape]
 getFigures str array
   | str == "Rectangle" = getRectangles array
   | str == "Circle" = getCircles array
@@ -69,7 +69,7 @@ getFigures str array
 
 --Додаткове завдання
 --перемiщення фiгури на вказаний вектор.
-move :: Figure -> Int -> Int -> Figure
+move :: Shape -> Int -> Int -> Shape
 move (Rectangle x1 y1 x2 y2) v1 v2 = Rectangle (x1 + v1) (y1 + v2) (x2 + v1) (y2 + v2)
 move (Circle x y r) v1 v2 = Circle (x + v1) (y + v2) r
 move (Label x y f s) v1 v2 = Label (x + v1) (y + v2) f s
@@ -84,3 +84,8 @@ move (Triangle x1 y1 x2 y2 x3 y3) v1 v2 = Triangle (x1 + v1) (y1 + v2) (x2 + v1)
 --Rectangle 6 7 9 10
 --move (Label 2 4 Consolas "hello") (-1) (-2)
 --Label 1 2 Consolas "hello"
+
+
+--Висновки
+--Було створено класи та методи для роботи з класами. Ознайомлені зі стандартними класами Haskell.
+--Створювали колекції та працювали з їх елементами

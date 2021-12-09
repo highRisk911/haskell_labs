@@ -1,38 +1,86 @@
--- ª–—ﬁ‡–‚ﬁ‡›– ‡ﬁ—ﬁ‚– 4
--- ≤ÿ⁄ﬁ›–“ ·‚„‘’›‚ ”‡„ﬂÿ ∫Ω-31 ¶È’›⁄ﬁ ¥‹ÿ‚‡ﬁ ¿ﬁ‹–›ﬁ“ÿÁ
--- 2 “–‡ˆ–›‚
+--–í–∏–∫–æ–Ω–∞–≤ —Å—Ç—É–¥–µ–Ω—Ç –≥—Ä—É–ø–∏ –ö–ù-31 –Ü—â–µ–Ω–∫–æ –î–º–∏—Ç—Ä–æ –†–æ–º–∞–Ω–æ–≤–∏—á
+--–í–∞—Ä—ñ–∞–Ω—Ç 2
 
---1.2
+--–ó–∞–≤–¥–∞–Ω–Ω—è
+--–§i–≥—É—Ä–∏ –Ω–∞ –ø–ª–æ—â–∏–Ωi.
+--–í–∏–∫–æ—Ä–∏—Å—Ç–æ–≤—É—é—Ç—å—Å—è —Ç–∞–∫i —Ñi–≥—É—Ä–∏, —è–∫ –∫–æ–ª–æ (—Ü–µ–Ω—Ç—Ä —Ç–∞ —Ä–∞–¥i—É—Å),
+--–ø—Ä—è–º–æ–∫—É—Ç–Ω–∏–∫ (–∫–æ–æ—Ä–¥–∏–Ω–∞—Ç–∏ –ªi–≤–æ—ó –≤–µ—Ä—Ö–Ω—å–æ—ó —Ç–∞ –ø—Ä–∞–≤–æ—ó –Ω–∏–∂–Ω—å–æ—ó —Ç–æ—á–æ–∫),
+--—Ç—Ä–∏–∫—É—Ç–Ω–∏–∫ (–∫–æ–æ—Ä–¥–∏–Ω–∞—Ç–∏ –≤–µ—Ä—à–∏–Ω) —Ç–∞
+--–ºi—Ç–∫–∞ ‚Äî label (–∫–æ–æ—Ä–¥–∏–Ω–∞—Ç–∏ –ªi–≤–æ—ó –Ω–∏–∂–Ω—å–æ—ó —Ç–æ—á–∫–∏, —à—Ä–∏—Ñ—Ç —Ç–∞ —Ä—è–¥–æ–∫).
+--–î–æ—Å—Ç—É–ø–Ωi —à—Ä–∏—Ñ—Ç–∏ ‚Äî Consolas, Lucida Console —Ç–∞ Source Code Pro.
 
--- —’◊ “—„‘ﬁ“–›ÿÂ ‰„›⁄ÊˆŸ
-class Palindrome a where
-  palindrome :: a -> Bool
+--–í–∏–∑–Ω–∞—á–Ω–µ —Ñ—É–Ω–∫—Üi—ó –¥–ª—è:
+--–æ—Ç—Ä–∏–º–∞–Ω–Ω—è —Å–ø–∏—Å–∫—É —Ñi–≥—É—Ä –≤–∫–∞–∑–∞–Ω–æ–≥–æ —Ç–∏–ø—É;
 
-instance Palindrome Integer where
-  palindrome _ = True
+data Font = Consolas | LucidaConsole | SourceCodePro deriving (Eq, Show)
 
-instance (Eq a, Palindrome a) => Palindrome [a] where
-  palindrome xs = xs == reverse xs && all palindrome xs
+data Figure
+  = Circle Int Int Int
+  | Rectangle Int Int Int Int
+  | Triangle Int Int Int Int Int Int
+  | Label Int Int Font String
+  deriving (Eq, Show)
 
+getRectangles :: [Figure] -> [Figure]
+getRectangles [] = []
+getRectangles ((Rectangle x1 y1 x2 y2) : fs) = Rectangle x1 y1 x2 y2 : getRectangles fs
+getRectangles ((Circle {}) : fs) = getRectangles fs
+getRectangles ((Triangle {}) : fs) = getRectangles fs
+getRectangles ((Label {}) : fs) = getRectangles fs
 
--- ◊ “—„‘ﬁ“–›ÿ‹ÿ ‰„›⁄ÊˆÔ‹ÿ
-isPalindrome xs = and $ zipWith (==) xs (reverse xs)
+getCircles :: [Figure] -> [Figure]
+getCircles [] = []
+getCircles ((Circle x y r) : fs) = Circle x y r : getCircles fs
+getCircles ((Rectangle {}) : fs) = getCircles fs
+getCircles ((Triangle {}) : fs) = getCircles fs
+getCircles ((Label {}) : fs) = getCircles fs
 
+getTriangles :: [Figure] -> [Figure]
+getTriangles [] = []
+getTriangles ((Triangle x1 y1 x2 y2 x3 y3) : fs) = Triangle x1 y1 x2 y2 x3 y3 : getTriangles fs
+getTriangles ((Rectangle {}) : fs) = getTriangles fs
+getTriangles ((Circle {}) : fs) = getTriangles fs
+getTriangles ((Label {}) : fs) = getTriangles fs
 
---2.2
+getLabels :: [Figure] -> [Figure]
+getLabels [] = []
+getLabels ((Label x y f s) : fs) = Label x y f s : getLabels fs
+getLabels ((Rectangle {}) : fs) = getLabels fs
+getLabels ((Triangle {}) : fs) = getLabels fs
+getLabels ((Circle {}) : fs) = getLabels fs
 
--- ◊ “—„‘ﬁ“–›ÿ‹ÿ ‰„›⁄ÊˆÔ‹ÿ
-shifts xs = take (length xs) $ iterate shift xs
-  where shift (x:xs) = xs ++ [x]
+getFigures :: String -> [Figure] -> [Figure]
+getFigures str array
+  | str == "Rectangle" = getRectangles array
+  | str == "Circle" = getCircles array
+  | str == "Triangle" = getTriangles array
+  | str == "Label" = getLabels array
+  | otherwise = []
 
--- —’◊ “—„‘ﬁ“–›ÿÂ ‰„›⁄ÊˆŸ
-mixLists [] ys = ys
-mixLists xs [] = xs
-mixLists (x : xs) (y : ys) = ?
-mixLists (x : xs) (y : ys) = x : y : ?
-mixLists (x : xs) (y : ys) = x : y : mixLists xs ys
+--–¢–µ—Å—Ç—É–≤–∞–Ω–Ω—è
+--getFigures "Label" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
+--[Label 0.0 0.0 Consolas "hello"]
+--getFigures "Rectangle" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
+--[Rectangle 1.0 1.0 4.0 4.0,Rectangle 1.0 1.0 4.0 5.0]
+--getFigures "Triangle" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
+--[Triangle 1.0 1.0 4.0 4.0 9.0 9.0]
+--getFigures "Circle" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
+--[Circle 1.0 2.0 3.0]
 
--- ≤ÿ·›ﬁ“ﬁ⁄
--- ≤ Âﬁ‘ˆ €–—ﬁ‡–‚ﬁ‡›ﬁ˜ ‡ﬁ—ﬁ‚ÿ ﬁ◊›–Ÿﬁ‹ÿ€ÿ·Ô ◊ ﬁ·ﬁ—€ÿ“ﬁ·‚Ô‹ÿ ‘’⁄€–‡„“–››Ô ‰„›⁄ÊˆŸ. 
--- Ω–ﬂÿ·–€ÿ ‚– ﬂ‡ﬁ‚’·‚„“–€ÿ ‰„›⁄Êˆ˜ ‘€Ô ﬁ—Áÿ·€’››Ô „ ·‰’‡ˆ ﬂ€–›ˆ‹’‚‡ˆ˜.
--- æ‚‡ÿ‹–€ÿ ‘ﬁ·“ˆ‘ ‡ﬁ—ﬁ‚ÿ ◊ ˆ›‚’‡ﬂ‡’‚–‚ﬁ‡ﬁ‹ GHCI.
+--–î–æ–¥–∞—Ç–∫–æ–≤–µ –∑–∞–≤–¥–∞–Ω–Ω—è
+--–ø–µ—Ä–µ–ºi—â–µ–Ω–Ω—è —Ñi–≥—É—Ä–∏ –Ω–∞ –≤–∫–∞–∑–∞–Ω–∏–π –≤–µ–∫—Ç–æ—Ä.
+move :: Figure -> Int -> Int -> Figure
+move (Rectangle x1 y1 x2 y2) v1 v2 = Rectangle (x1 + v1) (y1 + v2) (x2 + v1) (y2 + v2)
+move (Circle x y r) v1 v2 = Circle (x + v1) (y + v2) r
+move (Label x y f s) v1 v2 = Label (x + v1) (y + v2) f s
+move (Triangle x1 y1 x2 y2 x3 y3) v1 v2 = Triangle (x1 + v1) (y1 + v2) (x2 + v1) (y2 + v2) (x3 + v1) (y3 + v2)
+
+--–¢–µ—Å—Ç—É–≤–∞–Ω–Ω—è
+--move (Triangle 1 1 4 4 9 9) 2 2
+--Triangle 3 3 6 6 11 11
+--move (Circle 1 2 3) 3 1
+--Circle 4 3 3
+--move (Rectangle 1 1 4 4) 5 6
+--Rectangle 6 7 9 10
+--move (Label 2 4 Consolas "hello") (-1) (-2)
+--Label 1 2 Consolas "hello"

@@ -3,7 +3,7 @@
 -- 2 варіант
 
 --1.2
-
+1.2 Знайти передостаннiй елемент списку.
 -- без вбудованих функцій
 secondByLast (x : _ : []) = x
 secondByLast (_ : xs)     = secondByLast xs
@@ -16,7 +16,7 @@ secondByLastWithTail (x:xs) | ((null xs) || null (tail xs)) = Just x
 secondByLastWithTail []                                     = secondByLastWithTail
 
 --2.2
-
+Циклiчний лiвий зсув списку на n позицiй.
 -- з вбудованими функціями
 shifts xs = take (length xs) $ iterate shift xs
   where shift (x:xs) = xs ++ [x]

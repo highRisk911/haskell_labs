@@ -3,7 +3,7 @@
 -- 2 варіант
 
 --1.2
-
+--Чи є список палiндромом?
 -- без вбудованих функцій
 class Palindrome a where
   palindrome :: a -> Bool
@@ -20,7 +20,9 @@ isPalindrome xs = and $ zipWith (==) xs (reverse xs)
 
 
 --2.2
+--Об’єднання зi змiшуванням двох спискiв довжиною n1 та n2. Вихiдний список має довжину 2 ∗ n, де n = min(n1, n2). Наприклад
 
+"abcde"та "123"перетворюються на "a1b2c3"
 -- з вбудованими функціями
 shifts xs = take (length xs) $ iterate shift xs
   where shift (x:xs) = xs ++ [x]

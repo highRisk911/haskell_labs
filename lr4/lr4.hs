@@ -49,8 +49,8 @@ getLabels ((Rectangle {}) : fs) = getLabels fs
 getLabels ((Triangle {}) : fs) = getLabels fs
 getLabels ((Circle {}) : fs) = getLabels fs
 
-getFigures :: String -> [Shape] -> [Shape]
-getFigures str array
+getShapes :: String -> [Shape] -> [Shape]
+getShapes str array
   | str == "Rectangle" = getRectangles array
   | str == "Circle" = getCircles array
   | str == "Triangle" = getTriangles array
@@ -58,13 +58,13 @@ getFigures str array
   | otherwise = []
 
 --Тестування
---getFigures "Label" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
+--getShapes "Label" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
 --[Label 0.0 0.0 Consolas "hello"]
---getFigures "Rectangle" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
+--getShapes "Rectangle" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
 --[Rectangle 1.0 1.0 4.0 4.0,Rectangle 1.0 1.0 4.0 5.0]
---getFigures "Triangle" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
+--getShapes "Triangle" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
 --[Triangle 1.0 1.0 4.0 4.0 9.0 9.0]
---getFigures "Circle" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
+--getShapes "Circle" [(Circle 1 2 3),(Rectangle 1 1 4 4),(Triangle 1 1 4 4 9 9),(Rectangle 1 1 4 5), (Label 0 0 Consolas "hello")]
 --[Circle 1.0 2.0 3.0]
 
 --Додаткове завдання
